@@ -1,6 +1,6 @@
 class GameOfLife {
   constructor(cellSize, height, width, deadColor, liveColor, canvasid) {
-    console.log('game of life class constructor called')
+    console.log("game of life class constructor called");
     // define the length of the side of each square cell, in pixels
     this.cellSize = cellSize;
     // number of rows
@@ -17,7 +17,7 @@ class GameOfLife {
     this.liveColor = liveColor;
     // id of the canvas
     this.canvasid = canvasid;
-    console.log('game of life class constructor completed')
+    console.log("game of life class constructor completed");
   }
 
   // initialize field with a 2d array filled with dead cells (0)
@@ -116,6 +116,6 @@ class GameOfLife {
 
   run() {
     this.lifeCycle();
-    // this.colorize();
+    this.colorize();
   }
 }
