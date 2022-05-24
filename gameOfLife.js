@@ -1,5 +1,5 @@
 class GameOfLife {
-  constructor(cellSize, height, width, deadColor, liveColor, canvasid) {
+  constructor(cellSize, height, width, deadColor, liveColor, canvasid, seedProbability) {
     console.log("game of life class constructor called");
     // define the length of the side of each square cell, in pixels
     this.cellSize = cellSize;
@@ -17,6 +17,8 @@ class GameOfLife {
     this.liveColor = liveColor;
     // id of the canvas
     this.canvasid = canvasid;
+    // live/dead probability
+    this.seedProbability = seedProbability;
     console.log("game of life class constructor completed");
   }
 
@@ -35,7 +37,7 @@ class GameOfLife {
   seed() {
     for (let i = 0; i < this.cellsPerRow; i++) {
       for (let j = 0; j < this.cellsPerColumn; j++) {
-        this.currentGeneration[i][j] = Math.random() > 0.5 ? 1 : 0;
+        this.currentGeneration[i][j] = Math.random() > this.seedProbability ? 1 : 0;
       }
     }
   }
@@ -62,29 +64,17 @@ class GameOfLife {
     }
   }
 
-  // make the current generation the previous generation
-  lifeCycle() {
-    // console.log("lifeCycle() entered");
-    for (let i = 0; i < this.cellsPerRow; i++) {
-      for (let j = 0; j < this.cellsPerColumn; j++) {
-        this.previousGeneration[i][j] = this.updateCellValues(i, j);
-        // console.log(`current cell: (${x}, ${j})`);
-      }
-    }
-    // console.log(this.previousGeneration)
-    this.currentGeneration = this.previousGeneration;
-  }
-
   // count the neighbors of a cell to see how many are dead or alive
   checkNeighbors(i, j) {
     var neighbors = 0;
-    for (let x = i - 1; x <= i + 1; x++) {
-      for (let y = j - 1; y <= j + 1; y++) {
-        x !== i && y !== j
-          ? (neighbors += this.checkNeighborsHelper(x, y))
-          : null;
-      }
-    }
+    neighbors += this.checkNeighborsHelper(i - 1, j - 1);
+    neighbors += this.checkNeighborsHelper(i - 1, j);
+    neighbors += this.checkNeighborsHelper(i - 1, j + 1);
+    neighbors += this.checkNeighborsHelper(i, j - 1);
+    neighbors += this.checkNeighborsHelper(i, j + 1);
+    neighbors += this.checkNeighborsHelper(i + 1, j - 1);
+    neighbors += this.checkNeighborsHelper(i + 1, j);
+    neighbors += this.checkNeighborsHelper(i + 1, j + 1);
     return neighbors;
   }
 
@@ -107,6 +97,21 @@ class GameOfLife {
     } else {
       return this.currentGeneration[i][j];
     }
+  }
+
+  // make the current generation the previous generation
+  lifeCycle() {
+    console.log("lifeCycle() entered");
+    for (let i = 0; i < this.cellsPerRow; i++) {
+      for (let j = 0; j < this.cellsPerColumn; j++) {
+        this.previousGeneration[i][j] = this.updateCellValues(i, j);
+        console.log(
+          `current cell: (${i}, ${j})\n value: ${this.previousGeneration[i][j]}`
+        );
+      }
+    }
+    // console.log(this.previousGeneration)
+    this.currentGeneration = this.previousGeneration;
   }
 
   // setup the field

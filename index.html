@@ -3,9 +3,15 @@
   <head>
     <title>ma4230 final project: conway's game of life</title>
   </head>
-  <body style="background-color: orange">
-    <canvas id="field" height="1000" width="1000"></canvas>
+  <body style="background-color: white">
+    <div class="buttons-div">
+      <button id="start">start</button>
+      <button id="stop">stop</button>
+    </div>
+    <canvas id="field" width="1000" height="1000"></canvas>
   </body>
-  <script src="GameOfLife.js"></script>
-  <script src="index.js"></script>
+  <script type="text/javascript" src="GameOfLife.js">
+    console.log('game of life loaded')
+  </script>
+  <script type="text/javascript" src="index.js"></script>
 </html>

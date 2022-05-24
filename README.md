@@ -1,10 +1,18 @@
 # Conway's Game Of Life
+## Introduction
 Since we learned about cellular automata, I've been very interested in implementing Conway's Game of Life in a web format. So, I decided to do it for my final project. 
 
+I've provided a detailed explanation of the code, should you be interested in toying with what is going on under the hood.
+
+### How to run the program
+1. Download the github repository as a .zip file and unzip it in your target folder.
+2. Open the `index.html` file in your browser.
+3. You are good to go! Click the buttons to start or stop the program, and open the code in an editor if you'd like to mess around with some of the features.
+
+---
 ## The Program
 This program was implemented using the model-view-controller design pattern. The model, which contains the logic of the program and is the "brain" of the application, is located in the `gameOfLife.js` file. The controller, which coordinates the interaction between the view and model, is located in `index.js`. The view is located in `index.html` and is what is accessed from the browser.
 
-In order to display each generation, we need some way to create a grid of cells. This can be accomplished by utilizing the `<canvas>` element, or by using various javascript development packages such as p5.js or d3.js. In the future, implementing the algorithm with these packages may become useful in expanding the capabilities of the program, however I elected to use the `<canvas>` element for this implementation. The properties of this element were initialized in the `index.js` file.
 ### Algorithm
 The version that I am submitting is based off the rules for a 2d array where each cell has eight neighbors. The ruleset is as follows:
 
@@ -17,9 +25,8 @@ An initial seed is required to start off the game of life. This is accomplished 
 
 ---
 ## Implementation
-
 ### Explanation of `index.js`
-- 
+This file essentially initializes the game and connects the model with the browser.
 
 ###  Explanation of `gameOfLife.js`
 - Variables
@@ -30,6 +37,8 @@ An initial seed is required to start off the game of life. This is accomplished 
   - `previousGeneration` = the 2d array containing the field array the previous generation
   - `deadColor` = the color of the dead cells as a hexcode
   - `liveColor` = the color of the live cells as a hexcode
+  - `canvasid` = the id of the `<canvas>` element
+  - `seedProbability` = the probability of a cell being alive on initialization. The higher the number, the less live cells the grid will start with.
 
 - Functions
   - `initializeField()` 
