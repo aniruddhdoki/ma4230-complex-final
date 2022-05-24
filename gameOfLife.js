@@ -1,11 +1,12 @@
 class GameOfLife {
-  constructor(cellSize, canvas, deadColor, liveColor) {
+  constructor(cellSize, height, width, deadColor, liveColor, canvasid) {
+    console.log('game of life class constructor called')
     // define the length of the side of each square cell, in pixels
     this.cellSize = cellSize;
     // number of rows
-    this.cellsPerColumn = Math.floor(canvas.width / this.cellSize);
+    this.cellsPerColumn = Math.floor(width / this.cellSize);
     // number of columns
-    this.cellsPerRow = Math.floor(canvas.height / this.cellSize);
+    this.cellsPerRow = Math.floor(height / this.cellSize);
     // hold the state of the current generation
     this.currentGeneration = [];
     // hold the state of the previous generation
@@ -13,14 +14,17 @@ class GameOfLife {
     // define the color of the dead cells
     this.deadColor = deadColor;
     // define the color of the living cells
-    this.liveColor = this.liveColor;
+    this.liveColor = liveColor;
+    // id of the canvas
+    this.canvasid = canvasid;
+    console.log('game of life class constructor completed')
   }
 
   // initialize field with a 2d array filled with dead cells (0)
   initializeField() {
     for (let i = 0; i < this.cellsPerRow; i++) {
       this.currentGeneration[i] = [];
-      for (let j = 0; j < cellsPerColumn.length; j++) {
+      for (let j = 0; j < this.cellsPerColumn; j++) {
         this.currentGeneration[i][j] = 0;
       }
     }
@@ -38,6 +42,9 @@ class GameOfLife {
 
   // colorize the cells based on the state (1 is alive, 0 is dead)
   colorize() {
+    const canvas = document.getElementById(this.canvasid);
+    const ctx = canvas.getContext("2d");
+
     for (let i = 0; i < this.cellsPerRow; i++) {
       for (let j = 0; j < this.cellsPerColumn; j++) {
         var color;
@@ -57,19 +64,22 @@ class GameOfLife {
 
   // make the current generation the previous generation
   lifeCycle() {
+    // console.log("lifeCycle() entered");
     for (let i = 0; i < this.cellsPerRow; i++) {
       for (let j = 0; j < this.cellsPerColumn; j++) {
-        this.previousGeneration = this.updateCellValues(i, j);
+        this.previousGeneration[i][j] = this.updateCellValues(i, j);
+        // console.log(`current cell: (${x}, ${j})`);
       }
     }
+    // console.log(this.previousGeneration)
     this.currentGeneration = this.previousGeneration;
   }
 
   // count the neighbors of a cell to see how many are dead or alive
   checkNeighbors(i, j) {
     var neighbors = 0;
-    for (x = i - 1; x <= i + 1; x++) {
-      for (y = j - 1; y <= j + 1; y++) {
+    for (let x = i - 1; x <= i + 1; x++) {
+      for (let y = j - 1; y <= j + 1; y++) {
         x !== i && y !== j
           ? (neighbors += this.checkNeighborsHelper(x, y))
           : null;
@@ -97,5 +107,15 @@ class GameOfLife {
     } else {
       return this.currentGeneration[i][j];
     }
+  }
+
+  // setup the field
+  setUp() {
+    this.initializeField();
+  }
+
+  run() {
+    this.lifeCycle();
+    // this.colorize();
   }
 }
